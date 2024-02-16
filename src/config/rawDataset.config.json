@@ -1,0 +1,368 @@
+{
+    "qoli": {
+        "filename": "qoli",
+        "extension": "json",
+        "dimensions": {
+            "auxiliary": {
+                "indicators": {
+                    "population": {
+                        "filename": "population",
+                        "extension": "json"
+                    }
+                }
+            },
+            "education": {
+                "filename": "education",
+                "extension": "json",
+                "indicators": {
+                    "digitalSkillsRatio": {
+                        "filename": "digitalSkillsRatio",
+                        "extension": "json"
+                    },
+                    "dropoutRatio": {
+                        "filename": "dropoutRatio",
+                        "extension": "json"
+                    },
+                    "earlyEducationRatio": {
+                        "filename": "earlyEducationRatio",
+                        "extension": "json"
+                    },
+                    "educationRatio": {
+                        "filename": "educationRatio",
+                        "extension": "json"
+                    },
+                    "inactiveYoungRatio": {
+                        "filename": "inactiveYoungRatio",
+                        "extension": "json"
+                    },
+                    "pupilsRatio2012": {
+                        "filename": "pupilsRatio2012",
+                        "extension": "json"
+                    },
+                    "pupilsRatio2013": {
+                        "filename": "pupilsRatio2013",
+                        "extension": "json"
+                    },
+                    "trainingRatio": {
+                        "filename": "trainingRatio",
+                        "extension": "json"
+                    },
+                    "zeroForeignLangRatio": {
+                        "filename": "zeroForeignLangRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "environment": {
+                "filename": "environment",
+                "extension": "json",
+                "indicators": {
+                    "airPollutionRatio": {
+                        "filename": "airPollutionRatio",
+                        "extension": "json"
+                    },
+                    "noisePollutionRatio": {
+                        "filename": "noisePollutionRatio",
+                        "extension": "json"
+                    },
+                    "pollutionRatio": {
+                        "filename": "pollutionRatio",
+                        "extension": "json"
+                    },
+                    "waterSupplyRatio": {
+                        "filename": "waterSupplyRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "governance": {
+                "filename": "governance",
+                "extension": "json",
+                "indicators": {
+                    "citizenshipRatio": {
+                        "filename": "citizenshipRatio",
+                        "extension": "json"
+                    },
+                    "employmentRatioBySex": {
+                        "filename": "employmentRatioBySex",
+                        "extension": "json"
+                    },
+                    "genderPayGap": {
+                        "filename": "genderPayGap",
+                        "extension": "json"
+                    },
+                    "populationTrustRatio": {
+                        "filename": "populationTrustRatio",
+                        "extension": "json"
+                    },
+                    "voterTurnout": {
+                        "filename": "voterTurnout",
+                        "extension": "csv"
+                    }
+                }
+            },
+            "health": {
+                "filename": "health",
+                "extension": "json",
+                "indicators": {
+                    "alcoholicRatio": {
+                        "filename": "alcoholicRatio",
+                        "extension": "json"
+                    },
+                    "bodyMassIndex": {
+                        "filename": "bodyMassIndex",
+                        "extension": "json"
+                    },
+                    "fruitsVegetablesRatio": {
+                        "filename": "fruitsVegetablesRatio",
+                        "extension": "json"
+                    },
+                    "healthPersonnel": {
+                        "filename": "healthPersonnel",
+                        "extension": "json"
+                    },
+                    "healthyLifeRatio": {
+                        "filename": "healthyLifeRatio",
+                        "extension": "json"
+                    },
+                    "healthyLifeYears": {
+                        "filename": "healthyLifeYears",
+                        "extension": "json"
+                    },
+                    "hospitalBeds": {
+                        "filename": "hospitalBeds",
+                        "extension": "json"
+                    },
+                    "lifeExpectancy": {
+                        "filename": "lifeExpectancy",
+                        "extension": "json"
+                    },
+                    "longHealthIssuesRatio": {
+                        "filename": "longHealthIssuesRatio",
+                        "extension": "json"
+                    },
+                    "physicalActivitiesRatio": {
+                        "filename": "physicalActivitiesRatio",
+                        "extension": "json"
+                    },
+                    "smokersRatio": {
+                        "filename": "smokersRatio",
+                        "extension": "json"
+                    },
+                    "unmetDentalStatus": {
+                        "filename": "unmetDentalStatus",
+                        "extension": "json"
+                    },
+                    "unmetMedicalStatus": {
+                        "filename": "unmetMedicalStatus",
+                        "extension": "json"
+                    },
+                    "workAccidents": {
+                        "filename": "workAccidents",
+                        "extension": "json"
+                    }
+                }
+            },
+            "interactions": {
+                "filename": "interactions",
+                "extension": "json",
+                "indicators": {
+                    "askingRatio": {
+                        "filename": "askingRatio",
+                        "extension": "json"
+                    },
+                    "discussionRatio": {
+                        "filename": "discussionRatio",
+                        "extension": "json"
+                    },
+                    "gettingTogetherRatio": {
+                        "filename": "gettingTogetherRatio",
+                        "extension": "json"
+                    },
+                    "relationshipsSatisfactionRatio": {
+                        "filename": "relationshipsSatisfactionRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "leisure": {
+                "filename": "leisure",
+                "extension": "json",
+                "indicators": {
+                    "nonParticipationRatio": {
+                        "filename": "nonParticipationRatio",
+                        "extension": "json"
+                    },
+                    "socialActivitiesRatio": {
+                        "filename": "socialActivitiesRatio",
+                        "extension": "json"
+                    },
+                    "timeSpentSatisfaction": {
+                        "filename": "timeSpentSatisfaction",
+                        "extension": "json"
+                    },
+                    "voluntaryActivitiesRatio": {
+                        "filename": "voluntaryActivitiesRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "mainActivity": {
+                "filename": "mainActivity",
+                "extension": "json",
+                "indicators": {
+                    "avgWorkHours2007": {
+                        "filename": "avgWorkHours2007",
+                        "extension": "json"
+                    },
+                    "avgWorkHours2008": {
+                        "filename": "avgWorkHours2008",
+                        "extension": "json"
+                    },
+                    "employmentRatio": {
+                        "filename": "employmentRatio",
+                        "extension": "json"
+                    },
+                    "inactivePopulationRatio": {
+                        "filename": "inactivePopulationRatio",
+                        "extension": "json"
+                    },
+                    "involuntaryPartTimeRatio": {
+                        "filename": "involuntaryPartTimeRatio",
+                        "extension": "json"
+                    },
+                    "jobSatisfaction": {
+                        "filename": "jobSatisfaction",
+                        "extension": "json"
+                    },
+                    "longTermUnemploymentRatio": {
+                        "filename": "longTermUnemploymentRatio",
+                        "extension": "json"
+                    },
+                    "lowWageEarnersRatio": {
+                        "filename": "lowWageEarnersRatio",
+                        "extension": "json"
+                    },
+                    "nightsRatio": {
+                        "filename": "nightsRatio",
+                        "extension": "json"
+                    },
+                    "overQualifiedRatio": {
+                        "filename": "overQualifiedRatio",
+                        "extension": "json"
+                    },
+                    "researchers": {
+                        "filename": "researchers",
+                        "extension": "json"
+                    },
+                    "temporaryEmploymentRatio": {
+                        "filename": "temporaryEmploymentRatio",
+                        "extension": "json"
+                    },
+                    "unemploymentRatio": {
+                        "filename": "unemploymentRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "livingConditions": {
+                "filename": "livingConditions",
+                "extension": "json",
+                "indicators": {
+                    "dwellingIssuesRatio": {
+                        "filename": "dwellingIssuesRatio",
+                        "extension": "json"
+                    },
+                    "endMeetInabilityRatio": {
+                        "filename": "endMeetInabilityRatio",
+                        "extension": "json"
+                    },
+                    "financialSatisfaction": {
+                        "filename": "financialSatisfaction",
+                        "extension": "json"
+                    },
+                    "highIncomeRatio": {
+                        "filename": "highIncomeRatio",
+                        "extension": "json"
+                    },
+                    "incomeQuintileRatio": {
+                        "filename": "incomeQuintileRatio",
+                        "extension": "json"
+                    },
+                    "lackOfBathsRatio": {
+                        "filename": "lackOfBathsRatio",
+                        "extension": "json"
+                    },
+                    "lowWorkIntensityRatio": {
+                        "filename": "lowWorkIntensityRatio",
+                        "extension": "json"
+                    },
+                    "materialDeprivationRatio": {
+                        "filename": "materialDeprivationRatio",
+                        "extension": "json"
+                    },
+                    "medianIncome": {
+                        "filename": "medianIncome",
+                        "extension": "json"
+                    },
+                    "overOccupiedRatio": {
+                        "filename": "overOccupiedRatio",
+                        "extension": "json"
+                    },
+                    "povertyRiskRatio": {
+                        "filename": "povertyRiskRatio",
+                        "extension": "json"
+                    },
+                    "underOccupiedRatio": {
+                        "filename": "underOccupiedRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "overallExperience": {
+                "filename": "overallExperience",
+                "extension": "json",
+                "indicators": {
+                    "happinessRatio": {
+                        "filename": "happinessRatio",
+                        "extension": "json"
+                    },
+                    "highSatisfactionRatio": {
+                        "filename": "highSatisfactionRatio",
+                        "extension": "json"
+                    }
+                }
+            },
+            "safety": {
+                "filename": "safety",
+                "extension": "json",
+                "indicators": {
+                    "crimeRatio": {
+                        "filename": "crimeRatio",
+                        "extension": "json"
+                    },
+                    "offences": {
+                        "filename": "offences",
+                        "extension": "json"
+                    },
+                    "pensionRatio": {
+                        "filename": "pensionRatio",
+                        "extension": "json"
+                    },
+                    "socialProtectionRatio": {
+                        "filename": "socialProtectionRatio",
+                        "extension": "json"
+                    },
+                    "unexpectedRatio": {
+                        "filename": "unexpectedRatio",
+                        "extension": "json"
+                    },
+                    "unpaidRatio": {
+                        "filename": "unpaidRatio",
+                        "extension": "json"
+                    }
+                }
+            }
+        }
+    }
+}
