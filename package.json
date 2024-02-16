@@ -9,7 +9,7 @@
         "npm": "v9.6.7"
     },
     "scripts": {
-        "start:dev": "nodemon src/index.ts",
+        "start:dev": "nodemon src/index.ts --ignore files",
         "start:prod": "ts-node src/index.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -31,6 +31,7 @@
     "homepage": "https://github.com/iliedorobat/QoLI-Map-Service#readme",
     "dependencies": {
         "express": "^4.18.2",
+        "java-caller": "^3.3.0",
         "node-fetch": "^3.3.2"
     },
     "devDependencies": {
