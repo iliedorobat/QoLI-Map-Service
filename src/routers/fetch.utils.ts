@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import {createRequire} from 'node:module';
-import {writeFileSync} from '#src/common/file.utils.ts';
+import {writeFileSync} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);
 const datasetConfig = require('#src/config/rawDataset.config.json');
