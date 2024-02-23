@@ -20,7 +20,7 @@
         "skipLibCheck": true,
         "outDir": "dist",
         "paths": {
-            "src/*": ["src/*"]
+            "#src/*": ["src/*"]
         },
         "types": [
             "node",
