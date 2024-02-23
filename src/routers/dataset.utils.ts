@@ -1,7 +1,4 @@
-import {createRequire} from 'node:module';
-
-const require = createRequire(import.meta.url);
-const datasetConfig = require('#src/config/preparedDataset.config.json');
+import datasetConfig from '#src/config/preparedDataset.config.ts';
 
 const getClientConfig = () => {
     const {qoli} = datasetConfig;

@@ -1,14 +1,15 @@
 import {Request, Response, Router} from 'express';
 import {createRequire} from 'node:module';
 
+import datasetConfig from '#src/config/preparedDataset.config.ts';
 import {AREA, DATASET_TYPE, downloadDatasets} from './fetch.utils.ts';
 import {getClientConfig} from '#src/routers/dataset.utils.ts';
 import {Stats} from '#src/aggregator/Stats.ts';
-import {GEO_TYPE} from '#src/commons/file.utils.ts';
-import {FORMAT} from 'src/commons/file.utils.ts';
+
+import {DIMENSIONS} from '#src/aggregator/stats.const.js';
+import {FORMAT, GEO_TYPE} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);
-const datasetConfig = require('#src/config/preparedDataset.config.json');
 const {JavaCaller} = require('java-caller');
 
 const router = Router();
@@ -46,7 +47,7 @@ router.get('/stats/name/indicators', async (req: Request, res: Response) => {
     if (!dimensionName || dimensionName === 'qoli') {
         const indNames = [];
 
-        for (const dimName of datasetConfig.qoli.aggregators) {
+        for (const dimName of Object.values(DIMENSIONS)) {
             const names = datasetConfig.qoli.dimensions[dimName].aggregators
                 .map((indName: string) => `${dimName}:${indName}`);
             indNames.push(...names);

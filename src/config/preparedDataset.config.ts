@@ -606,4 +606,4 @@ export default {
             }
         }
     }
-};
+} as const;

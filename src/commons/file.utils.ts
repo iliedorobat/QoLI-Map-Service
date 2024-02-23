@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 
-import config from '#src/config/preparedDataset.config.ts';
+import datasetConfig from '#src/config/preparedDataset.config.ts';
 
 export enum GEO_TYPE {
     COUNTRIES = 'countries',
@@ -60,7 +60,7 @@ const readJsonDimension = async (dimension: string, geoType?: GEO_TYPE): Promise
 
 const readJsonIndicators = async (parentName: string, aggregators: string[], geoType?: GEO_TYPE): Promise<Promise<any>[]> => {
     // @ts-ignore
-    const indicatorsConfig = config.qoli.dimensions[parentName]?.indicators;
+    const indicatorsConfig = datasetConfig.qoli.dimensions[parentName]?.indicators;
 
     const callback = (aggregator: string, data: any) => {
         return {
