@@ -6,7 +6,7 @@ import {AREA, DATASET_TYPE, downloadDatasets} from './fetch.utils.ts';
 import {getClientConfig} from '#src/routers/dataset.utils.ts';
 import {Stats} from '#src/aggregator/Stats.ts';
 
-import {DIMENSIONS} from '#src/aggregator/stats.const.js';
+import {DIMENSIONS} from '#src/config/preparedDataset.const.ts';
 import {FORMAT, GEO_TYPE} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);

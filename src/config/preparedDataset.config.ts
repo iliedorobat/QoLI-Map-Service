@@ -1,20 +1,11 @@
+import {DIMENSIONS, INDICATORS} from './preparedDataset.const.js';
+
 export default {
     qoli: {
         label: "QoLI",
         filename: "qoli",
         extension: "json",
-        aggregators: [
-            "education",
-            "environment",
-            "governance",
-            "health",
-            "interactions",
-            "leisure",
-            "mainActivity",
-            "livingConditions",
-            "overallExperience",
-            "safety"
-        ],
+        aggregators: Object.values(DIMENSIONS),
         dimensions: {
             auxiliary: {
                 aggregators: [],
@@ -30,16 +21,7 @@ export default {
                 label: "Education",
                 filename: "education",
                 extension: "json",
-                aggregators: [
-                    "digitalSkillsRatio",
-                    "dropoutRatio",
-                    "earlyEducationRatio",
-                    "educationRatio",
-                    "inactiveYoungRatio",
-                    "pupilsRatio",
-                    "trainingRatio",
-                    "zeroForeignLangRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.EDUCATION]),
                 indicators: {
                     digitalSkillsRatio: {
                         label: "Digital Skills Ratio",
@@ -90,13 +72,7 @@ export default {
                 label: "Environment",
                 filename: "environment",
                 extension: "json",
-                aggregators: [
-                    "noisePollutionRatio",
-                    "pm2_5PollutionRatio",
-                    "pm10PollutionRatio",
-                    "pollutionRatio",
-                    "waterSupplyRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.ENVIRONMENT]),
                 indicators: {
                     noisePollutionRatio: {
                         label: "Noise Pollution Ratio",
@@ -133,13 +109,7 @@ export default {
                 label: "Governance and Basic Rights",
                 filename: "governance",
                 extension: "json",
-                aggregators: [
-                    "citizenshipRatio",
-                    "genderEmploymentGap",
-                    "genderPayGap",
-                    "populationTrustRatio",
-                    "voterTurnout"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.GOVERNANCE]),
                 indicators: {
                     citizenshipRatio: {
                         label: "Citizenship Ratio",
@@ -174,23 +144,7 @@ export default {
                 label: "Health",
                 filename: "health",
                 extension: "json",
-                aggregators: [
-                    "alcoholicRatio",
-                    "bmiObeseRatio",
-                    "bmiOverweightRatio",
-                    "fruitsVegetablesRatio",
-                    "healthPersonnel",
-                    "healthyLifeRatio",
-                    "healthyLifeYears",
-                    "hospitalBeds",
-                    "lifeExpectancy",
-                    "longHealthIssuesRatio",
-                    "physicalActivitiesRatio",
-                    "smokersRatio",
-                    "unmetDentalRatio",
-                    "unmetMedicalRatio",
-                    "workAccidents"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.HEALTH]),
                 indicators: {
                     alcoholicRatio: {
                         label: "Alcoholic Ratio",
@@ -281,13 +235,7 @@ export default {
                 label: "Social Interactions",
                 filename: "interactions",
                 extension: "json",
-                aggregators: [
-                    "askingRatio",
-                    "discussionRatio",
-                    "gettingTogetherFamRatio",
-                    "gettingTogetherFrdRatio",
-                    "satisfactionRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.INTERACTIONS]),
                 indicators: {
                     askingRatio: {
                         label: "Asking Ratio",
@@ -320,13 +268,7 @@ export default {
                 label: "Leisure",
                 filename: "leisure",
                 extension: "json",
-                aggregators: [
-                    "formalVoluntaryRatio",
-                    "informalVoluntaryRatio",
-                    "nonParticipationRatio",
-                    "satisfactionRatio",
-                    "socialActivitiesRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.LEISURE]),
                 indicators: {
                     formalVoluntaryRatio: {
                         label: "Formal Voluntary Ratio",
@@ -360,20 +302,7 @@ export default {
                 label: "Productive or Main Activity",
                 filename: "mainActivity",
                 extension: "json",
-                aggregators: [
-                    "avgRemainedWorkHours",
-                    "employmentRatio",
-                    "inactivePopulationRatio",
-                    "involuntaryPartTimeRatio",
-                    "jobSatisfaction",
-                    "longTermUnemploymentRatio",
-                    "lowWageEarningsRatio",
-                    "overQualifiedRatio",
-                    "researchersRatio",
-                    "temporaryEmploymentRatio",
-                    "unemploymentRatio",
-                    "workingNightsRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.MAIN_ACTIVITY]),
                 indicators: {
                     avgRemainedWorkHours: {
                         label: "Avg Remained Work Hours",
@@ -449,20 +378,7 @@ export default {
                 label: "Material and Living Conditions",
                 filename: "livingConditions",
                 extension: "json",
-                aggregators: [
-                    "dwellingIssuesRatio",
-                    "endMeetInabilityRatio",
-                    "financialSatisfactionRatio",
-                    "highIncomeRatio",
-                    "incomeQuintileRatio",
-                    "lackOfBathsRatio",
-                    "lowWorkIntensityRatio",
-                    "materialDeprivationRatio",
-                    "medianIncomePpsRatio",
-                    "overOccupiedRatio",
-                    "povertyRiskRatio",
-                    "underOccupiedRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.LIVING_CONDITIONS]),
                 indicators: {
                     dwellingIssuesRatio: {
                         label: "Dwelling Issues Ratio",
@@ -538,10 +454,7 @@ export default {
                 label: "Overal Experience",
                 filename: "overallExperience",
                 extension: "json",
-                aggregators: [
-                    "happinessRatio",
-                    "highSatisfactionRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.OVERALL_EXPERIENCE]),
                 indicators: {
                     happinessRatio: {
                         label: "Happiness Ratio",
@@ -559,14 +472,7 @@ export default {
                 label: "Safety",
                 filename: "safety",
                 extension: "json",
-                aggregators: [
-                    "crimeRatio",
-                    "nonPaymentRatio",
-                    "pensionPpsRatio",
-                    "socialProtectionPpsRatio",
-                    "totalOffencesRatio",
-                    "unexpectedRatio"
-                ],
+                aggregators: Object.values(INDICATORS[DIMENSIONS.SAFETY]),
                 indicators: {
                     crimeRatio: {
                         label: "Crime Ratio",
