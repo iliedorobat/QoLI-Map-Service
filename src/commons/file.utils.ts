@@ -43,7 +43,7 @@ const getSinglePath = (parentName: string, aggregator: string | undefined, geoTy
     return path.resolve(url);
 };
 
-const readJsonDimension = async (dimension: string, geoType?: GEO_TYPE): Promise<Promise<any>[]> => {
+const readJsonDimension = (dimension: string, geoType?: GEO_TYPE): Promise<any>[] => {
     const filePath = getSinglePath(dimension, undefined, geoType, FORMAT.JSON);
     const callback = (dimension: string, data: any) => {
         return {
@@ -54,14 +54,13 @@ const readJsonDimension = async (dimension: string, geoType?: GEO_TYPE): Promise
     };
 
     return [
-        await readJsonFileSync(filePath, (data: any) => callback(dimension, data))
+        readJsonFileSync(filePath, (data: any) => callback(dimension, data))
     ];
 };
 
-const readJsonIndicators = async (parentName: string, aggregators: string[], geoType?: GEO_TYPE): Promise<Promise<any>[]> => {
+const readJsonIndicators = (parentName: string, aggregators: string[], geoType?: GEO_TYPE): Promise<any>[] => {
     // @ts-ignore
     const indicatorsConfig = datasetConfig.qoli.dimensions[parentName]?.indicators;
-
     const callback = (aggregator: string, data: any) => {
         return {
             parentName,
@@ -71,10 +70,10 @@ const readJsonIndicators = async (parentName: string, aggregators: string[], geo
         };
     };
 
-    return aggregators.map(async aggregator => {
+    return aggregators.map(aggregator => {
         const [dimension, indicator] = aggregator.split(':');
         const filePath = getSinglePath(parentName, indicator, geoType, FORMAT.JSON);
-        return await readJsonFileSync(filePath, (data: any) => callback(indicator, data));
+        return readJsonFileSync(filePath, (data: any) => callback(indicator, data));
     });
 };
 
@@ -85,16 +84,12 @@ const readJsonFileSync = async (filePath: string | undefined, callback: Function
 
     try {
         const buffer = await fs.readFileSync(filePath);
+        const data = buffer.toString();
+        const json = JSON.parse(data);
 
-        return new Promise((res, rej) => {
-            const data = buffer.toString();
-            const json = JSON.parse(data);
-            const output = typeof callback === 'function'
-                ? callback(json)
-                : json;
-
-            return res(output);
-        });
+        return  typeof callback === 'function'
+            ? callback(json)
+            : json;
     } catch (error) {
         throw error;
     }

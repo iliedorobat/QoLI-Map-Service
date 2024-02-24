@@ -1,41 +1,69 @@
 import {readJsonDimension, readJsonIndicators} from '#src/commons/file.utils.ts';
 import {percentageSafetyMapDouble} from '#src/aggregator/stats.math.ts';
 import {DIMENSIONS, INDICATORS} from '#src/config/preparedDataset.const.ts';
-import {FORMAT, GEO_TYPE} from '#src/commons/file.utils.ts';
+import {GEO_TYPE} from '#src/commons/file.utils.ts';
 
 export const VALID_DIMENSIONS = Object.values(DIMENSIONS);
 
 export class Stats {
-    // TODO:
     static aggregateQoliScore = async (
         aggrs: string[] | undefined,
         countryCode: string,
         year: number,
-        geoType: GEO_TYPE | undefined = GEO_TYPE.COUNTRIES,
-        format: FORMAT | undefined = FORMAT.JSON
+        geoType: GEO_TYPE | undefined = GEO_TYPE.COUNTRIES
     ) => {
-        console.log(aggrs, countryCode, year, geoType, format);
+        const scores = Stats.aggregateQoliScoreByDimension(aggrs, countryCode, year, geoType);
 
-        // aggrs && VALID_DIMENSIONS.forEach(dimension => {
-        //     const indicators = aggrs.filter(aggr => aggr.startsWith(dimension));
-        //     const validIndicators = Object.values(INDICATORS[dimension]);
-        //
-        //     const score = Stats.getDimensionScore(validIndicators, dimension, indicators, countryCode, year, geoType);
-        //     console.log('forEach:', dimension, score);
-        // });
+        let aggrScore = 1;
+        let counter = 0;
 
-        const dimension = DIMENSIONS.ENVIRONMENT;
-        const indicators = aggrs?.filter(aggr => aggr.startsWith(dimension)) || [];
-        const validIndicators = Object.values(INDICATORS[dimension]).map(indicator => `${dimension}:${indicator}`);
-        const score = await Stats.getDimensionScore(validIndicators, dimension, indicators, countryCode, year, geoType);
-        console.log('score:', score);
+        for (const [key, value] of Object.entries(scores)) {
+            aggrScore += await value;
+            counter++;
+        }
+
+        // Skip the aggregation and return the already calculated value
+        // if "scores" contains only one dimension
+        return counter === 1 ? aggrScore : Math.log(aggrScore);
+    };
+
+    static aggregateQoliScoreByDimension = (
+        aggrs: string[] | undefined,
+        countryCode: string,
+        year: number,
+        geoType: GEO_TYPE | undefined = GEO_TYPE.COUNTRIES
+    ) => {
+        if (!aggrs?.length) {
+            return {};
+        }
+
+        return VALID_DIMENSIONS.reduce((acc, dimension) => {
+            const indicators = aggrs.filter(aggr => aggr.startsWith(`${dimension}`));
+            if (!indicators.length) {
+                return acc;
+            }
+
+            const validIndicators = Object.values(INDICATORS[dimension]).map(indicator => `${dimension}:${indicator}`);
+            acc[dimension] = Stats.getDimensionScore(validIndicators, dimension, indicators, countryCode, year, geoType);
+
+            return acc;
+        }, {} as { [key: string]: any });
     };
 
     static getDimensionScore = async (validIndicators: string[], dimension: string, indicators: string[], countryCode: string, year: number, geoType?: GEO_TYPE) => {
-        // Skip calculating the score for the whole dimension but extract it
-        // directly form the already calculated scores
+        // Skip calculating the score for the whole dimension but extract it directly
+        // form the already calculated scores (E.g.: indicators = ["environment"]
         if (isCompleteDimension(validIndicators, dimension, indicators)) {
-            const promises = await readJsonDimension(dimension, geoType);
+            const promises = readJsonDimension(dimension, geoType);
+            const results = await Promise.all(promises);
+
+            return results[0].data[countryCode][year];
+        }
+
+        // Skip the aggregation and get the calculated value of the selected aggregator if the user
+        // selected only a single indicator (E.g.: indicators = ["environment:noisePollutionRatio"])
+        if (indicators.length === 1) {
+            const promises = readJsonIndicators(dimension, indicators, geoType);
             const results = await Promise.all(promises);
 
             return results[0].data[countryCode][year];
@@ -46,7 +74,7 @@ export class Stats {
             throw new Error('One or more aggregators are not valid.');
         }
 
-        const promises = await readJsonIndicators(dimension, indicators, geoType);
+        const promises = readJsonIndicators(dimension, indicators, geoType);
         const results = await Promise.all(promises);
 
         const product = results.reduce((acc: number, result) => {

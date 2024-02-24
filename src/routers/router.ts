@@ -7,7 +7,7 @@ import {getClientConfig} from '#src/routers/dataset.utils.ts';
 import {Stats} from '#src/aggregator/Stats.ts';
 
 import {DIMENSIONS} from '#src/config/preparedDataset.const.ts';
-import {FORMAT, GEO_TYPE} from '#src/commons/file.utils.ts';
+import {GEO_TYPE} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);
 const {JavaCaller} = require('java-caller');
@@ -20,17 +20,19 @@ router.get('', async (req: Request, res: Response) => {
 
 router.get('/stats', async (req: Request, res: Response) => {
     const {aggr, countryCode, year, geoType, format} = req.query;
-    const aggrs = Array.isArray(aggr) ? aggr : [aggr];
 
-    await Stats.aggregateQoliScore(
-        aggrs as string[] | undefined,
+    if (!aggr || !countryCode || !year) {
+        return res.status(500).send({error: 'The country code, aggregation year or aggregation indicators are missing.'});
+    }
+
+    const score = await Stats.aggregateQoliScore(
+        aggr as string[] | undefined,
         countryCode as string,
         parseInt(year as string),
-        geoType as GEO_TYPE,
-        format as FORMAT
+        geoType as GEO_TYPE
     );
 
-    res.send('OK');
+    res.send({score});
 });
 
 router.get('/stats/config', async (req: Request, res: Response) => {
