@@ -1,5 +1,5 @@
 import Express from 'express';
-import router from '#src/aggregator/stats.router.js';
+import router from '#src/stats/stats.router.js';
 
 const app = Express();
 

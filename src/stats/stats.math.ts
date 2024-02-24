@@ -1,4 +1,4 @@
-import {AVAILABLE_INTERVAL, EU28_MEMBER_CODES} from '#src/aggregator/stats.const.ts';
+import {AVAILABLE_INTERVAL, EU28_MEMBER_CODES} from '#src/stats/stats.const.ts';
 
 type IStatsEntry = {
     [key in typeof EU28_MEMBER_CODES[number]]: {

@@ -1,5 +1,5 @@
 import {AREA, readJsonDimension, readJsonIndicators} from '#src/commons/file.utils.ts';
-import {percentageSafetyMapDouble} from '#src/aggregator/stats.math.ts';
+import {percentageSafetyMapDouble} from '#src/stats/stats.math.ts';
 
 import {DIMENSIONS, INDICATORS} from '#src/config/preparedDataset.const.ts';
 

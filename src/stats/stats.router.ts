@@ -1,7 +1,7 @@
 import {Request, Response, Router} from 'express';
 import {createRequire} from 'node:module';
 
-import {calculateQoliScore} from '#src/aggregator/stats.ts';
+import {calculateQoliScore} from '#src/stats/stats.ts';
 import {DATASET_TYPE, downloadDatasets} from '../commons/fetch.utils.ts';
 import {getClientConfig} from '#src/config/preparedDataset.utils.ts';
 
