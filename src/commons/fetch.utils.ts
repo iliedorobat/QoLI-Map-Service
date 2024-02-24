@@ -1,17 +1,12 @@
 import fetch from 'node-fetch';
 import {createRequire} from 'node:module';
-import {writeFileSync} from '#src/commons/file.utils.ts';
+import {AREA, writeFileSync} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);
-const datasetConfig = require('#src/config/rawDataset.config.json');
+const DATASET_CONFIG = require('#src/config/rawDataset.config.json');
 
 const SOURCE_LOCATION = 'https://raw.githubusercontent.com/iliedorobat/QoLI-Framework/master/files';
 const TARGET_LOCATION = 'files';
-
-export enum AREA {
-    COUNTRIES = 'countries',
-    REGIONS = 'regions'
-}
 
 export enum DATASET_TYPE {
     RAW = 'raw',
@@ -54,7 +49,7 @@ const getDatasetsUrls = (datasetType: DATASET_TYPE, area: AREA) => {
 
     const urls: IDatasetConfig[] = [];
 
-    const {filename, extension, dimensions} = datasetConfig.qoli;
+    const {filename, extension, dimensions} = DATASET_CONFIG.qoli;
     const destinationUrl = `${TARGET_LOCATION}/${datasetType}/json/${area}`;
     const sourceUrl = `${SOURCE_LOCATION}/${datasetType}/json/${area}`;
 

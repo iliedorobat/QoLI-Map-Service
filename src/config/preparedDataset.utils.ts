@@ -1,7 +1,7 @@
-import datasetConfig from '#src/config/preparedDataset.config.ts';
+import DATASET_CONFIG from '#src/config/preparedDataset.config.ts';
 
 const getClientConfig = () => {
-    const {qoli} = datasetConfig;
+    const {qoli} = DATASET_CONFIG;
 
     return {
         checked: true,

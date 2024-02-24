@@ -1,11 +1,11 @@
 import path from 'path';
 import fs from 'fs';
 
-import datasetConfig from '#src/config/preparedDataset.config.ts';
+import DATASET_CONFIG from '#src/config/preparedDataset.config.ts';
 
-export enum GEO_TYPE {
-    COUNTRIES = 'countries',
-    REGIONS = 'regions',
+export enum AREA {
+    COUNTRY = 'countries',
+    REGION = 'regions',
 }
 
 export enum FORMAT {
@@ -16,11 +16,11 @@ export enum FORMAT {
 // E.g.:
 //  - parentName: education
 //  - aggregators: [digitalSkillsRatio, pupilsRatio]
-const getMultiplePaths = (parentName: string, aggregators: string[], geoType?: GEO_TYPE, format?: FORMAT) => {
+const getMultiplePaths = (parentName: string, aggregators: string[], area?: AREA, format?: FORMAT) => {
     const paths: string[] = [];
 
     aggregators.forEach(aggregator => {
-        const path = getSinglePath(parentName, aggregator, geoType, format);
+        const path = getSinglePath(parentName, aggregator, area, format);
         path && paths.push(path);
     });
 
@@ -30,12 +30,12 @@ const getMultiplePaths = (parentName: string, aggregators: string[], geoType?: G
 // E.g.:
 //  - parentName: education
 //  - aggregator: digitalSkillsRatio
-const getSinglePath = (parentName: string, aggregator: string | undefined, geoType: GEO_TYPE = GEO_TYPE.COUNTRIES, format: FORMAT = FORMAT.JSON) => {
+const getSinglePath = (parentName: string, aggregator: string | undefined, area: AREA = AREA.COUNTRY, format: FORMAT = FORMAT.JSON) => {
     if (!parentName) {
         return;
     }
 
-    const mainUrl = `./files/prepared/${format}/${geoType}`;
+    const mainUrl = `./files/prepared/${format}/${area}`;
     const url = aggregator
         ? `${mainUrl}/${parentName}/${aggregator}.${format}`
         : `${mainUrl}/${parentName}.${format}`;
@@ -43,8 +43,8 @@ const getSinglePath = (parentName: string, aggregator: string | undefined, geoTy
     return path.resolve(url);
 };
 
-const readJsonDimension = (dimension: string, geoType?: GEO_TYPE): Promise<any>[] => {
-    const filePath = getSinglePath(dimension, undefined, geoType, FORMAT.JSON);
+const readJsonDimension = (dimension: string, area?: AREA): Promise<any>[] => {
+    const filePath = getSinglePath(dimension, undefined, area, FORMAT.JSON);
     const callback = (dimension: string, data: any) => {
         return {
             parentName: 'qoli',
@@ -58,9 +58,9 @@ const readJsonDimension = (dimension: string, geoType?: GEO_TYPE): Promise<any>[
     ];
 };
 
-const readJsonIndicators = (parentName: string, aggregators: string[], geoType?: GEO_TYPE): Promise<any>[] => {
+const readJsonIndicators = (parentName: string, aggregators: string[], area?: AREA): Promise<any>[] => {
     // @ts-ignore
-    const indicatorsConfig = datasetConfig.qoli.dimensions[parentName]?.indicators;
+    const indicatorsConfig = DATASET_CONFIG.qoli.dimensions[parentName]?.indicators;
     const callback = (aggregator: string, data: any) => {
         return {
             parentName,
@@ -72,7 +72,7 @@ const readJsonIndicators = (parentName: string, aggregators: string[], geoType?:
 
     return aggregators.map(aggregator => {
         const [dimension, indicator] = aggregator.split(':');
-        const filePath = getSinglePath(parentName, indicator, geoType, FORMAT.JSON);
+        const filePath = getSinglePath(parentName, indicator, area, FORMAT.JSON);
         return readJsonFileSync(filePath, (data: any) => callback(indicator, data));
     });
 };

@@ -1,35 +1,31 @@
 import {Request, Response, Router} from 'express';
 import {createRequire} from 'node:module';
 
-import datasetConfig from '#src/config/preparedDataset.config.ts';
-import {AREA, DATASET_TYPE, downloadDatasets} from './fetch.utils.ts';
-import {getClientConfig} from '#src/routers/dataset.utils.ts';
-import {Stats} from '#src/aggregator/Stats.ts';
+import {calculateQoliScore} from '#src/aggregator/stats.ts';
+import {DATASET_TYPE, downloadDatasets} from '../commons/fetch.utils.ts';
+import {getClientConfig} from '#src/config/preparedDataset.utils.ts';
 
+import {AREA} from '#src/commons/file.utils.ts';
+import DATASET_CONFIG from '#src/config/preparedDataset.config.ts';
 import {DIMENSIONS} from '#src/config/preparedDataset.const.ts';
-import {GEO_TYPE} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);
 const {JavaCaller} = require('java-caller');
 
 const router = Router();
 
-router.get('', async (req: Request, res: Response) => {
-    res.send('OK');
-});
-
 router.get('/stats', async (req: Request, res: Response) => {
-    const {aggr, countryCode, year, geoType, format} = req.query;
+    const {aggr, countryCode, year, area, format} = req.query;
 
     if (!aggr || !countryCode || !year) {
         return res.status(500).send({error: 'The country code, aggregation year or aggregation indicators are missing.'});
     }
 
-    const score = await Stats.aggregateQoliScore(
+    const score = await calculateQoliScore(
         aggr as string[] | undefined,
         countryCode as string,
         parseInt(year as string),
-        geoType as GEO_TYPE
+        area as AREA
     );
 
     res.send({score});
@@ -40,7 +36,7 @@ router.get('/stats/config', async (req: Request, res: Response) => {
 });
 
 router.get('/stats/name/dimensions', async (req: Request, res: Response) => {
-    res.send(datasetConfig.qoli.aggregators);
+    res.send(DATASET_CONFIG.qoli.aggregators);
 });
 
 router.get('/stats/name/indicators', async (req: Request, res: Response) => {
@@ -50,7 +46,7 @@ router.get('/stats/name/indicators', async (req: Request, res: Response) => {
         const indNames = [];
 
         for (const dimName of Object.values(DIMENSIONS)) {
-            const names = datasetConfig.qoli.dimensions[dimName].aggregators
+            const names = DATASET_CONFIG.qoli.dimensions[dimName].aggregators
                 .map((indName: string) => `${dimName}:${indName}`);
             indNames.push(...names);
         }
@@ -61,7 +57,7 @@ router.get('/stats/name/indicators', async (req: Request, res: Response) => {
 
 router.get('/stats/collect', async (req: Request, res: Response) => {
     console.log('Starting downloading raw data...');
-    const {datasetType = DATASET_TYPE.RAW, area = AREA.COUNTRIES} = req.query;
+    const {datasetType = DATASET_TYPE.RAW, area = AREA.COUNTRY} = req.query;
 
     try {
         await downloadDatasets(

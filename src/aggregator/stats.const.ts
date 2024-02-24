@@ -1,6 +1,15 @@
 const CRR_YEAR = (new Date()).getFullYear();
 const MIN_YEAR = 2004;
 const MAX_YEAR = CRR_YEAR - 1;
+const AVAILABLE_INTERVAL = (() => {
+    const values = [];
+
+    for (let year = MAX_YEAR; year >= MIN_YEAR; year--) {
+        values.push(year);
+    }
+
+    return values;
+})();
 
 const EU_EASTERN_MEMBERS = ['BG', 'CZ', 'HU', 'PL', 'RO', 'SK'] as const;
 const EU_NORTHERN_MEMBERS = ['DK', 'EE', 'FI', 'IE', 'LV', 'LT', 'SE', 'UK'] as const;
@@ -42,6 +51,8 @@ const EU28_MEMBERS = {
     UK: 'United Kingdom',
 } as const;
 
+const EU28_MEMBER_CODES = Object.keys(EU28_MEMBERS);
+
 const EU28_MEMBERS_EXTENDED = {
     // EU28: 'European Union - 28 countries', // (2013-2020)
     AT: 'Austria',
@@ -78,10 +89,12 @@ const EU28_MEMBERS_EXTENDED = {
 } as const;
 
 export {
+    AVAILABLE_INTERVAL,
     EU_EASTERN_MEMBERS,
     EU_NORTHERN_MEMBERS,
     EU_SOUTHERN_MEMBERS,
     EU_WESTERN_MEMBERS,
+    EU28_MEMBER_CODES,
     EU28_MEMBERS,
     EU28_MEMBERS_EXTENDED,
     EU28_REGIONS,

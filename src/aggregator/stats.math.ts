@@ -1,4 +1,10 @@
-import {IStatsEntry} from './stats.types.ts';
+import {AVAILABLE_INTERVAL, EU28_MEMBER_CODES} from '#src/aggregator/stats.const.ts';
+
+type IStatsEntry = {
+    [key in typeof EU28_MEMBER_CODES[number]]: {
+        [key in typeof AVAILABLE_INTERVAL[number]]: number;
+    }
+}
 
 /**
  * The minimum value for which the PERCENTAGE_SAFETY_THRESHOLD can be applied
@@ -51,8 +57,8 @@ const percentageSafetyDouble = (value: number): number => {
  *  - MathUtils.percentageSafetyDouble(Map<String, Number> map, String key, boolean reversedImpact)
  *
  * @param map The related map
- * @param countryCode Internationally recognized code of a country (E.g.: "AT", "RO", etc.)
- * @param year Year of analysis
+ * @param countryCode Internationally recognized code of the target country (E.g.: "AT", "RO", etc.)
+ * @param year The year for which the analysis is carried out
  * @param reversedImpact true/false specifying if the indicator has a negative impact
  *                       (e.g.: dropoutRatio, pollutionRatio, etc.)
  * @return The safety value
