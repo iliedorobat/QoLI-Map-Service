@@ -1,4 +1,5 @@
 import {DIMENSIONS, INDICATORS} from './preparedDataset.const.js';
+import {IQoLI} from './preparedDataset.types.js';
 
 export default {
     qoli: {
@@ -511,5 +512,5 @@ export default {
                 }
             }
         }
-    }
+    } as IQoLI
 } as const;

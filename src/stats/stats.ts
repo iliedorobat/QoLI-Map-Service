@@ -3,8 +3,6 @@ import {percentageSafetyMapDouble} from '#src/stats/stats.math.ts';
 
 import {DIMENSIONS, INDICATORS} from '#src/config/preparedDataset.const.ts';
 
-export const VALID_DIMENSIONS = Object.values(DIMENSIONS);
-
 /**
  * Determine the QoLI aggregated score.
  *
@@ -17,7 +15,7 @@ const calculateQoliScore = async (
     aggrs: string[] | undefined,
     countryCode: string,
     year: number,
-    area: AREA | undefined = AREA.COUNTRY
+    area: AREA = AREA.COUNTRY
 ) => {
     const scores = calculateDimensionScores(aggrs, countryCode, year, area);
 
@@ -52,7 +50,7 @@ const calculateDimensionScores = (
         return {};
     }
 
-    return VALID_DIMENSIONS.reduce((acc, dimension) => {
+    return Object.values(DIMENSIONS).reduce((acc, dimension) => {
         const indicators = aggrs.filter(aggr => aggr.startsWith(`${dimension}`));
         if (!indicators.length) {
             return acc;

@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import {createRequire} from 'node:module';
-import {AREA, writeFileSync} from '#src/commons/file.utils.ts';
+import {AREA, FORMAT, writeFileSync} from '#src/commons/file.utils.ts';
 
 const require = createRequire(import.meta.url);
 const DATASET_CONFIG = require('#src/config/rawDataset.config.json');
@@ -15,7 +15,7 @@ export enum DATASET_TYPE {
 
 export interface IDatasetConfig {
     filename: string,
-    extension: string,
+    extension: FORMAT,
     destination: string,
     source: string
 }

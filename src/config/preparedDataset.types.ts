@@ -1,7 +1,9 @@
+import {FORMAT} from '#src/commons/file.utils.js';
+
 export interface IGenericDimension {
     label: string;
     filename: string;
-    extension: string;
+    extension: FORMAT;
     aggregators: string[];
     indicators: {
         [key: string]: IQoLIIndicator
@@ -11,29 +13,27 @@ export interface IGenericDimension {
 export interface IQoLIIndicator {
     label: string;
     filename: string;
-    extension: string;
+    extension: FORMAT;
     reversed?: boolean | null;
 }
 
 export interface IQoLI {
-    qoli: {
-        label: string;
-        filename: string;
-        extension: string;
-        aggregators: string[];
-        dimensions: {
-            auxiliary: IAuxiliary,
-            education: IEducation,
-            environment: IEnvironment,
-            governance: IGovernance,
-            health: IHealth,
-            interactions: IInteractions,
-            leisure: ILeisure,
-            mainActivity: IMainActivity,
-            livingConditions: ILivingConditions,
-            overallExperience: IOverallExperience,
-            safety: ISafety
-        }
+    label: string;
+    filename: string;
+    extension: FORMAT;
+    aggregators: string[];
+    dimensions: {
+        auxiliary: IAuxiliary,
+        education: IEducation,
+        environment: IEnvironment,
+        governance: IGovernance,
+        health: IHealth,
+        interactions: IInteractions,
+        leisure: ILeisure,
+        mainActivity: IMainActivity,
+        livingConditions: ILivingConditions,
+        overallExperience: IOverallExperience,
+        safety: ISafety
     }
 }
 
@@ -169,4 +169,4 @@ export interface ISafety extends IGenericDimension {
     }
 }
 
-export type IQoLIDimension = IAuxiliary | IEducation | IEnvironment | IGovernance | IHealth | IInteractions | ILeisure | IMainActivity | ILivingConditions | IOverallExperience | ISafety;
+export type IQoLIDimension = IEducation | IEnvironment | IGovernance | IHealth | IInteractions | ILeisure | IMainActivity | ILivingConditions | IOverallExperience | ISafety;
