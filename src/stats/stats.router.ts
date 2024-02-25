@@ -21,16 +21,27 @@ router.get('/stats', async (req: Request, res: Response) => {
         return res.status(500).send({error: 'The country code, aggregation year or aggregation indicators are missing.'});
     }
 
-    const aggrs = typeof aggr === 'string' ? [aggr] : aggr;
+    try {
+        const aggrs = typeof aggr === 'string' ? [aggr] : aggr;
 
-    const score = await calculateQoliScore(
-        aggrs as string[],
-        countryCode as string,
-        parseInt(year as string),
-        area as AREA
-    );
+        const score = await calculateQoliScore(
+            aggrs as string[],
+            countryCode as string,
+            parseInt(year as string),
+            area as AREA
+        );
 
-    res.send({score});
+        res.send({score});
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            // @ts-ignore
+            if (error.code === 'ENOENT') {
+                return res.status(500).send({error: 'Some of the aggregator names are wrong.'});
+            }
+        }
+
+        res.status(500).send({error});
+    }
 });
 
 router.get('/stats/name/dimensions', async (req: Request, res: Response) => {
@@ -39,18 +50,17 @@ router.get('/stats/name/dimensions', async (req: Request, res: Response) => {
 
 router.get('/stats/name/indicators', async (req: Request, res: Response) => {
     const {dimensionName} = req.query;
+    const indNames = [];
 
     if (!dimensionName || dimensionName === 'qoli') {
-        const indNames = [];
-
         for (const dimName of Object.values(DIMENSIONS)) {
             const names = DATASET_CONFIG.qoli.dimensions[dimName].aggregators
                 .map((indName: string) => `${dimName}:${indName}`);
             indNames.push(...names);
         }
-
-        res.send(indNames);
     }
+
+    res.send(indNames);
 });
 
 router.get('/stats/dataset/config', async (req: Request, res: Response) => {
@@ -59,7 +69,7 @@ router.get('/stats/dataset/config', async (req: Request, res: Response) => {
 
 router.get('/stats/dataset/collect', async (req: Request, res: Response) => {
     console.log('Starting downloading raw data...');
-    const {datasetType = DATASET_TYPE.RAW, area = AREA.COUNTRY} = req.query;
+    const {datasetType, area} = req.query;
 
     try {
         await downloadDatasets(
@@ -69,22 +79,32 @@ router.get('/stats/dataset/collect', async (req: Request, res: Response) => {
         console.log('Download complete!');
         res.send('Download complete!');
     } catch (error) {
+        console.error('Something went wrong while downloading raw data.');
         res.status(500).send({error});
     }
 });
 
 router.get('/stats/dataset/prepare', async (req: Request, res: Response) => {
     console.log('Start data preparation...');
-    const java = new JavaCaller({
-        jar: 'libs/QoLI-Framework-1.2.jar',
-        mainClass: 'app.java.Main'
-    });
-    const {status, stdout, sterr} = await java.run(['--calculate=true', '--calculateIndicators=true']);
-    if (sterr) {
+
+    try {
+        const java = new JavaCaller({
+            jar: 'libs/QoLI-Framework-1.2.jar',
+            mainClass: 'app.java.Main'
+        });
+        const {status, stdout, sterr} = await java.run(['--calculate=true', '--calculateIndicators=true']);
+
+        if (sterr) {
+            console.error('Something went wrong while preparing QoLI scores.');
+            return res.status(500).send({error: 'Execution failed'});
+        }
+
         console.log('Data preparation has successfully finished!');
-        res.status(500).send({error: 'Execution failed'});
+        res.send('Calculation complete!');
+    } catch (error) {
+        console.error('Something went wrong while preparing QoLI scores.');
+        res.status(500).send({error});
     }
-    res.send('Calculation complete!');
 });
 
 export default router;

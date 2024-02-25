@@ -20,7 +20,7 @@ export interface IDatasetConfig {
     source: string
 }
 
-const downloadDatasets = async (datasetType: DATASET_TYPE, area: AREA) => {
+const downloadDatasets = async (datasetType = DATASET_TYPE.RAW, area = AREA.COUNTRY) => {
     const urls: IDatasetConfig[] = getDatasetsUrls(datasetType, area);
 
     for await (const url of urls) {
