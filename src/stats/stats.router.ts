@@ -31,10 +31,6 @@ router.get('/stats', async (req: Request, res: Response) => {
     res.send({score});
 });
 
-router.get('/stats/config', async (req: Request, res: Response) => {
-    res.send(getClientConfig());
-});
-
 router.get('/stats/name/dimensions', async (req: Request, res: Response) => {
     res.send(DATASET_CONFIG.qoli.aggregators);
 });
@@ -55,7 +51,11 @@ router.get('/stats/name/indicators', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/stats/collect', async (req: Request, res: Response) => {
+router.get('/stats/dataset/config', async (req: Request, res: Response) => {
+    res.send(getClientConfig());
+});
+
+router.get('/stats/dataset/collect', async (req: Request, res: Response) => {
     console.log('Starting downloading raw data...');
     const {datasetType = DATASET_TYPE.RAW, area = AREA.COUNTRY} = req.query;
 
@@ -71,7 +71,7 @@ router.get('/stats/collect', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/stats/prepare', async (req: Request, res: Response) => {
+router.get('/stats/dataset/prepare', async (req: Request, res: Response) => {
     console.log('Start data preparation...');
     const java = new JavaCaller({
         jar: 'libs/QoLI-Framework-1.2.jar',
