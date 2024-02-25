@@ -23,7 +23,7 @@ const calculateQoliScore = async (
     let counter = 0;
 
     for (const [key, value] of Object.entries(scores)) {
-        aggrScore += await value;
+        aggrScore *= await value;
         counter++;
     }
 

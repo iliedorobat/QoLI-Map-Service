@@ -21,8 +21,10 @@ router.get('/stats', async (req: Request, res: Response) => {
         return res.status(500).send({error: 'The country code, aggregation year or aggregation indicators are missing.'});
     }
 
+    const aggrs = typeof aggr === 'string' ? [aggr] : aggr;
+
     const score = await calculateQoliScore(
-        aggr as string[] | undefined,
+        aggrs as string[],
         countryCode as string,
         parseInt(year as string),
         area as AREA
