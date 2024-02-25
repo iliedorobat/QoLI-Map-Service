@@ -58,7 +58,7 @@ const readJsonDimension = (dimension: string, area?: AREA): Promise<any>[] => {
     ];
 };
 
-const readJsonIndicators = (parentName: string, aggregators: string[], area?: AREA): Promise<any>[] => {
+const readJsonIndicators = (parentName: string, aggregators: string[], area: AREA): Promise<any>[] => {
     // @ts-ignore
     const indicatorsConfig = DATASET_CONFIG.qoli.dimensions[parentName]?.indicators;
     const callback = (aggregator: string, data: any) => {

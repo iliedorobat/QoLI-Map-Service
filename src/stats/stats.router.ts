@@ -1,7 +1,7 @@
 import {Request, Response, Router} from 'express';
 import {createRequire} from 'node:module';
 
-import {calculateQoliScore} from '#src/stats/stats.ts';
+import {calculateQoliScores} from '#src/stats/stats.ts';
 import {DATASET_TYPE, downloadDatasets} from '../commons/fetch.utils.ts';
 import {getClientConfig} from '#src/config/preparedDataset.utils.ts';
 
@@ -17,30 +17,38 @@ const router = Router();
 router.get('/stats', async (req: Request, res: Response) => {
     const {aggr, countryCode, year, area, format} = req.query;
 
-    if (!aggr || !countryCode || !year) {
-        return res.status(500).send({error: 'The country code, aggregation year or aggregation indicators are missing.'});
+    if (!aggr) {
+        return res.status(500).send({error: 'Aggregation indicators are missing.'});
+    }
+
+    if (!year) {
+        return res.status(500).send({error: 'Aggregation year is missing.'});
     }
 
     try {
-        const aggrs = typeof aggr === 'string' ? [aggr] : aggr;
+        const aggrs = typeof aggr === 'string'
+            ? [aggr as string]
+            : aggr as string[];
+        const countryCodes = typeof countryCode === 'string'
+            ? [countryCode as string]
+            : countryCode as string[];
+        const years = Array.isArray(year)
+            ? year.map(y => parseInt(y as string))
+            : [parseInt(year as string)];
 
-        const score = await calculateQoliScore(
-            aggrs as string[],
-            countryCode as string,
-            parseInt(year as string),
+        const score = await calculateQoliScores(
+            aggrs,
+            countryCodes,
+            years,
             area as AREA
         );
 
-        res.send({score});
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            // @ts-ignore
-            if (error.code === 'ENOENT') {
-                return res.status(500).send({error: 'Some of the aggregator names are wrong.'});
-            }
+        res.send(score);
+    } catch (error: any) {
+        if (error?.code === 'ENOENT') {
+            return res.status(500).send({error: 'Some of the aggregator names are wrong.'});
         }
-
-        res.status(500).send({error});
+        return res.status(500).send({error: error.message});
     }
 });
 

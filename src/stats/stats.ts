@@ -1,7 +1,41 @@
 import {AREA, readJsonDimension, readJsonIndicators} from '#src/commons/file.utils.ts';
-import {percentageSafetyMapDouble} from '#src/stats/stats.math.ts';
+import {IStatsEntry, percentageSafetyMapDouble} from '#src/stats/stats.math.ts';
 
 import {DIMENSIONS, INDICATORS} from '#src/config/preparedDataset.const.ts';
+
+interface IQoliScore {
+    aggregators: string[],
+    scores: IStatsEntry
+}
+
+/**
+ * Determine the QoLI aggregated scores by countries and aggregation years.
+ *
+ * @param aggrs List of aggregators (E.g.: ["environment:noisePollutionRatio", "environment:pm10PollutionRatio"])
+ * @param countryCodes Internationally recognized code of the target countries (E.g.: ["AT", "RO"])
+ * @param years The years for which the analysis is carried out
+ * @param area The type of geographical area (country or region) for which the analysis is made
+ */
+const calculateQoliScores = async (
+    aggrs: string[],
+    countryCodes: string[],
+    years: number[],
+    area: AREA = AREA.COUNTRY
+) => {
+    const result = {
+        aggregators: aggrs,
+        scores: {}
+    } as IQoliScore;
+
+    for (const code of countryCodes) {
+        result.scores[code] = {};
+        for (const year of years) {
+            result.scores[code][year] = await calculateQoliScore(aggrs, code, year, area);
+        }
+    }
+
+    return result;
+};
 
 /**
  * Determine the QoLI aggregated score.
@@ -12,10 +46,10 @@ import {DIMENSIONS, INDICATORS} from '#src/config/preparedDataset.const.ts';
  * @param area The type of geographical area (country or region) for which the analysis is made
  */
 const calculateQoliScore = async (
-    aggrs: string[] | undefined,
+    aggrs: string[],
     countryCode: string,
     year: number,
-    area: AREA = AREA.COUNTRY
+    area: AREA
 ) => {
     const scores = calculateDimensionScores(aggrs, countryCode, year, area);
 
@@ -41,12 +75,12 @@ const calculateQoliScore = async (
  * @param area The type of geographical area (country or region) for which the analysis is made
  */
 const calculateDimensionScores = (
-    aggrs: string[] | undefined,
+    aggrs: string[],
     countryCode: string,
     year: number,
-    area: AREA | undefined = AREA.COUNTRY
+    area: AREA
 ) => {
-    if (!aggrs?.length) {
+    if (!aggrs.length) {
         return {};
     }
 
@@ -63,7 +97,7 @@ const calculateDimensionScores = (
     }, {} as { [key: string]: any });
 };
 
-const calculateDimensionScore = async (validIndicators: string[], dimension: string, indicators: string[], countryCode: string, year: number, area?: AREA) => {
+const calculateDimensionScore = async (validIndicators: string[], dimension: string, indicators: string[], countryCode: string, year: number, area: AREA) => {
     // Skip calculating the score for the whole dimension but extract it directly
     // form the already calculated scores (E.g.: indicators = ["environment"]
     if (isCompleteDimension(validIndicators, dimension, indicators)) {
@@ -129,5 +163,6 @@ const areValidAggregators = (validAggregators: string[], aggregators: string[]):
 export {
     calculateDimensionScore,
     calculateDimensionScores,
-    calculateQoliScore
+    calculateQoliScore,
+    calculateQoliScores
 };
