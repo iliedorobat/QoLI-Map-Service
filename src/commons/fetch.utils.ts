@@ -1,17 +1,14 @@
 import fetch from 'node-fetch';
 import {createRequire} from 'node:module';
+
 import {AREA, FORMAT, writeFileSync} from '#src/commons/file.utils.ts';
+import {IQoLI} from '#src/config/preparedDataset.types.js';
 
 const require = createRequire(import.meta.url);
 const DATASET_CONFIG = require('#src/config/rawDataset.config.json');
 
-const SOURCE_LOCATION = 'https://raw.githubusercontent.com/iliedorobat/QoLI-Framework/master/files';
-const TARGET_LOCATION = 'files';
-
-export enum DATASET_TYPE {
-    RAW = 'raw',
-    PREPARED = 'prepared'
-}
+const SOURCE_LOCATION = 'https://raw.githubusercontent.com/iliedorobat/QoLI-Framework/master/files/raw';
+const TARGET_LOCATION = 'files/raw';
 
 export interface IDatasetConfig {
     filename: string,
@@ -20,8 +17,8 @@ export interface IDatasetConfig {
     source: string
 }
 
-const downloadDatasets = async (datasetType = DATASET_TYPE.RAW, area = AREA.COUNTRY) => {
-    const urls: IDatasetConfig[] = getDatasetsUrls(datasetType, area);
+const downloadDatasets = async () => {
+    const urls: IDatasetConfig[] = getRawDatasetUrls();
 
     for await (const url of urls) {
         const response = await fetch(url.source);
@@ -38,58 +35,37 @@ const downloadDatasets = async (datasetType = DATASET_TYPE.RAW, area = AREA.COUN
     }
 };
 
-const getDatasetsUrls = (datasetType: DATASET_TYPE, area: AREA) => {
-    if (!Object.values(DATASET_TYPE).includes(datasetType)) {
-        throw new Error(`datasetType=${datasetType} is not supported`);
-    }
-
-    if (!Object.values(AREA).includes(area)) {
-        throw new Error(`area=${area} is not supported`);
-    }
-
+const getRawDatasetUrls = () => {
     const urls: IDatasetConfig[] = [];
+    const {dimensions} = DATASET_CONFIG.qoli as IQoLI;
 
-    const {filename, extension, dimensions} = DATASET_CONFIG.qoli;
-    const destinationUrl = `${TARGET_LOCATION}/${datasetType}/json/${area}`;
-    const sourceUrl = `${SOURCE_LOCATION}/${datasetType}/json/${area}`;
-
-    if (datasetType === DATASET_TYPE.PREPARED) {
-        urls.push({
-            filename,
-            extension,
-            destination: `${destinationUrl}/${filename}.${extension}`,
-            source: `${sourceUrl}/${filename}.${extension}`
-        });
-    }
-
-    for (const dimensionName in dimensions) {
-        const {filename, extension, indicators} = dimensions[dimensionName];
-
-        if (datasetType === DATASET_TYPE.PREPARED) {
-            urls.push({
-                filename: `${dimensionName}/${filename}`,
-                extension,
-                destination: `${destinationUrl}/${dimensionName}/${filename}.${extension}`,
-                source: `${sourceUrl}/${dimensionName}/${filename}.${extension}`
-            });
-        }
-
-        for (const indicatorName in indicators) {
-            const indicator = indicators[indicatorName];
+    for (const [dimensionName, dimension] of Object.entries(dimensions)) {
+        for (const [indicatorName, indicator] of Object.entries(dimension.indicators)) {
             const {filename, extension} = indicator;
-
-            if (filename && extension) {
-                urls.push({
-                    filename: `${dimensionName}/${filename}`,
-                    extension,
-                    destination: `${destinationUrl}/${dimensionName}/${filename}.${extension}`,
-                    source: `${sourceUrl}/${dimensionName}/${filename}.${extension}`
-                });
-            }
+            pushUrlMeta(urls, dimensionName, filename, extension);
         }
     }
 
     return urls;
+};
+
+const pushUrlMeta = (urls: IDatasetConfig[], dimensionName: string | undefined, filename: string, extension: string) => {
+    const url = getUrlMeta(dimensionName, filename, extension);
+    urls.push(url);
+};
+
+const getUrlMeta = (dimensionName: string | undefined, filename: string, extension: string) => {
+    const getPath = (locationPath: string) => {
+        const dirPath = [locationPath, FORMAT.JSON, AREA.COUNTRY, dimensionName].join('/');
+        return `${dirPath}/${filename}.${extension}`;
+    };
+
+    return {
+        filename: dimensionName ? `${dimensionName}/${filename}` : filename,
+        extension,
+        destination: getPath(TARGET_LOCATION),
+        source: getPath(SOURCE_LOCATION)
+    } as IDatasetConfig;
 };
 
 export {

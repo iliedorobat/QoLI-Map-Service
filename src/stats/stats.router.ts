@@ -1,8 +1,10 @@
 import {Request, Response, Router} from 'express';
 import {createRequire} from 'node:module';
+import fs from 'fs';
+import path from 'path';
 
 import {calculateQoliScores} from '#src/stats/stats.ts';
-import {DATASET_TYPE, downloadDatasets} from '../commons/fetch.utils.ts';
+import {downloadDatasets} from '../commons/fetch.utils.ts';
 import {getClientConfig} from '#src/config/preparedDataset.utils.ts';
 
 import {AREA} from '#src/commons/file.utils.ts';
@@ -77,23 +79,25 @@ router.get('/stats/dataset/config', async (req: Request, res: Response) => {
 
 router.get('/stats/dataset/collect', async (req: Request, res: Response) => {
     console.log('Starting downloading raw data...');
-    const {datasetType, area} = req.query;
 
     try {
-        await downloadDatasets(
-            datasetType as DATASET_TYPE,
-            area as AREA
-        );
+        await downloadDatasets();
         console.log('Download complete!');
         res.send('Download complete!');
     } catch (error) {
         console.error('Something went wrong while downloading raw data.');
-        res.status(500).send({error});
+        res.status(500).send({error: 'Something went wrong while downloading raw data.'});
     }
 });
 
 router.get('/stats/dataset/prepare', async (req: Request, res: Response) => {
     console.log('Start data preparation...');
+
+    const dirPath = path.resolve('files', 'raw');
+
+    if (!fs.existsSync(dirPath)) {
+        return res.status(500).send('First you need to download the raw data using "/stats/dataset/collect" API.');
+    }
 
     try {
         const java = new JavaCaller({
