@@ -2,6 +2,7 @@ import {AREA, readJsonDimension, readJsonIndicators} from '#src/commons/file.uti
 import {IStatsEntry, percentageSafetyMapDouble} from '#src/stats/stats.math.ts';
 
 import {DIMENSIONS, INDICATORS} from '#src/config/preparedDataset.const.ts';
+import {EU28_MEMBER_CODES} from '#src/stats/stats.const.js';
 
 interface IQoliScore {
     aggregators: string[],
@@ -18,7 +19,7 @@ interface IQoliScore {
  */
 const calculateQoliScores = async (
     aggrs: string[],
-    countryCodes: string[],
+    countryCodes: string[] | undefined,
     years: number[],
     area: AREA = AREA.COUNTRY
 ) => {
@@ -27,7 +28,11 @@ const calculateQoliScores = async (
         scores: {}
     } as IQoliScore;
 
-    for (const code of countryCodes) {
+    const codes = !countryCodes?.length
+        ? EU28_MEMBER_CODES
+        : countryCodes;
+
+    for (const code of codes) {
         result.scores[code] = {};
         for (const year of years) {
             result.scores[code][year] = await calculateQoliScore(aggrs, code, year, area);
