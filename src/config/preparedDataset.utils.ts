@@ -17,8 +17,7 @@ const getClientConfig = () => {
 
 const getDimensionsConfig = (qoli: IQoLI) => {
     return qoli.aggregators.map((dimKey: string) => {
-        // @ts-ignore
-        const dimension = qoli.dimensions[dimKey];
+        const dimension = qoli.dimensions[dimKey as keyof typeof qoli.dimensions] as IQoLIDimension;
 
         return {
             checked: true,
@@ -30,9 +29,8 @@ const getDimensionsConfig = (qoli: IQoLI) => {
 };
 
 const getIndicatorsConfig = (dimension: IQoLIDimension) => {
-    return dimension.aggregators.map((key: string) => {
-        // @ts-ignore
-        const {filename, label} = dimension.indicators[key];
+    return dimension.aggregators.map((indKey: string) => {
+        const {filename, label} = dimension.indicators[indKey as keyof typeof dimension.indicators];
 
         return {
             checked: true,
