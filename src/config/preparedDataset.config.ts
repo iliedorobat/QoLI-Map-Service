@@ -232,9 +232,9 @@ export default {
                     }
                 }
             },
-            leisureInteract: {
+            leisureInteractions: {
                 label: "Leisure and Social Interactions",
-                filename: "leisureInteract",
+                filename: "leisureInteractions",
                 extension: "json",
                 aggregators: Object.values(INDICATORS[DIMENSIONS.LEISURE_INTERACT]),
                 indicators: {

@@ -28,7 +28,7 @@ export interface IQoLI {
         environment: IEnvironment,
         governance: IGovernance,
         health: IHealth,
-        leisureInteract: ILeisureInteract,
+        leisureInteractions: ILeisureInteract,
         mainActivity: IMainActivity,
         livingConditions: ILivingConditions,
         overallExperience: IOverallExperience,
