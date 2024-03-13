@@ -275,7 +275,7 @@ export default {
                         reversed: true
                     },
                     relationshipsSatisfactionRatio: {
-                        label: "Relationship Satisfaction Ratio",
+                        label: "Relationships Satisfaction Ratio",
                         filename: "relationshipsSatisfactionRatio",
                         extension: "json"
                     },
