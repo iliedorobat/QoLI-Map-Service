@@ -3,7 +3,7 @@ const DIMENSIONS = {
     ENVIRONMENT: 'environment',
     GOVERNANCE: 'governance',
     HEALTH: 'health',
-    LEISURE_INTERACT: 'leisureInteract',
+    LEISURE_INTERACT: 'leisureInteractions',
     MAIN_ACTIVITY: 'mainActivity',
     LIVING_CONDITIONS: 'livingConditions',
     OVERALL_EXPERIENCE: 'overallExperience',
