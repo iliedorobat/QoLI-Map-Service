@@ -232,11 +232,11 @@ export default {
                     }
                 }
             },
-            interactions: {
-                label: "Social Interactions",
-                filename: "interactions",
+            leisureInteract: {
+                label: "Leisure and Social Interactions",
+                filename: "leisureInteract",
                 extension: "json",
-                aggregators: Object.values(INDICATORS[DIMENSIONS.INTERACTIONS]),
+                aggregators: Object.values(INDICATORS[DIMENSIONS.LEISURE_INTERACT]),
                 indicators: {
                     askingRatio: {
                         label: "Asking Ratio",
@@ -258,19 +258,6 @@ export default {
                         filename: "gettingTogetherFrdRatio",
                         extension: "json"
                     },
-                    satisfactionRatio: {
-                        label: "Satisfaction Ratio",
-                        filename: "satisfactionRatio",
-                        extension: "json"
-                    }
-                }
-            },
-            leisure: {
-                label: "Leisure",
-                filename: "leisure",
-                extension: "json",
-                aggregators: Object.values(INDICATORS[DIMENSIONS.LEISURE]),
-                indicators: {
                     formalVoluntaryRatio: {
                         label: "Formal Voluntary Ratio",
                         filename: "formalVoluntaryRatio",
@@ -287,14 +274,19 @@ export default {
                         extension: "json",
                         reversed: true
                     },
-                    satisfactionRatio: {
-                        label: "Satisfaction Ratio",
-                        filename: "satisfactionRatio",
+                    relSatisfactionRatio: {
+                        label: "Relationship Satisfaction Ratio",
+                        filename: "relationshipsSatisfactionRatio",
                         extension: "json"
                     },
                     socialActivitiesRatio: {
                         label: "Social Activities Ratio",
                         filename: "socialActivitiesRatio",
+                        extension: "json"
+                    },
+                    timeSatisfactionRatio: {
+                        label: "Time Satisfaction Ratio",
+                        filename: "timeSatisfactionRatio",
                         extension: "json"
                     }
                 }

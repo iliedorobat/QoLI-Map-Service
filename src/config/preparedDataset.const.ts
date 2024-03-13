@@ -3,8 +3,7 @@ const DIMENSIONS = {
     ENVIRONMENT: 'environment',
     GOVERNANCE: 'governance',
     HEALTH: 'health',
-    INTERACTIONS: 'interactions',
-    LEISURE: 'leisure',
+    LEISURE_INTERACT: 'leisureInteract',
     MAIN_ACTIVITY: 'mainActivity',
     LIVING_CONDITIONS: 'livingConditions',
     OVERALL_EXPERIENCE: 'overallExperience',
@@ -53,19 +52,17 @@ const INDICATORS = {
         UNMET_MEDICAL_RATIO: 'unmetMedicalRatio',
         WORK_ACCIDENTS: 'workAccidents'
     },
-    [DIMENSIONS.INTERACTIONS]: {
+    [DIMENSIONS.LEISURE_INTERACT]: {
         ASKING_RATIO: 'askingRatio',
         DISCUSSION_RATIO: 'discussionRatio',
         GETTING_TOGETHER_FAM_RATIO: 'gettingTogetherFamRatio',
         GETTING_TOGETHER_FRD_RATIO: 'gettingTogetherFrdRatio',
-        SATISFACTION_RATIO: 'satisfactionRatio'
-    },
-    [DIMENSIONS.LEISURE]: {
         FORMAL_VOLUNTARY_RATIO: 'formalVoluntaryRatio',
         INFORMAL_VOLUNTARY_RATIO: 'informalVoluntaryRatio',
         NON_PARTICIPATION_RATIO: 'nonParticipationRatio',
-        SATISFACTION_RATIO: 'satisfactionRatio',
-        SOCIAL_ACTIVITIES_RATIO: 'socialActivitiesRatio'
+        REL_SATISFACTION_RATIO: 'relationshipsSatisfactionRatio',
+        SOCIAL_ACTIVITIES_RATIO: 'socialActivitiesRatio',
+        TIME_SATISFACTION_RATIO: 'timeSatisfactionRatio'
     },
     [DIMENSIONS.MAIN_ACTIVITY]: {
         AVG_REMAINED_WORK_HOURS: 'avgRemainedWorkHours',
