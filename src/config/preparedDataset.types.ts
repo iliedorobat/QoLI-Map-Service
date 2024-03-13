@@ -105,7 +105,7 @@ export interface ILeisureInteract extends IGenericDimension {
         formalVoluntaryRatio: IQoLIIndicator;
         informalVoluntaryRatio: IQoLIIndicator;
         nonParticipationRatio: IQoLIIndicator;
-        relSatisfactionRatio: IQoLIIndicator;
+        relationshipsSatisfactionRatio: IQoLIIndicator;
         socialActivitiesRatio: IQoLIIndicator;
         timeSatisfactionRatio: IQoLIIndicator;
     }
