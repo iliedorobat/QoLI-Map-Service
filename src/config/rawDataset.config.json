@@ -57,10 +57,6 @@
                 "filename": "environment",
                 "extension": "json",
                 "indicators": {
-                    "airPollutionRatio": {
-                        "filename": "airPollutionRatio",
-                        "extension": "json"
-                    },
                     "noisePollutionRatio": {
                         "filename": "noisePollutionRatio",
                         "extension": "json"
@@ -163,8 +159,8 @@
                     }
                 }
             },
-            "interactions": {
-                "filename": "interactions",
+            "leisureInteractions": {
+                "filename": "leisureInteractions",
                 "extension": "json",
                 "indicators": {
                     "askingRatio": {
@@ -179,18 +175,12 @@
                         "filename": "gettingTogetherRatio",
                         "extension": "json"
                     },
-                    "relationshipsSatisfactionRatio": {
-                        "filename": "relationshipsSatisfactionRatio",
-                        "extension": "json"
-                    }
-                }
-            },
-            "leisure": {
-                "filename": "leisure",
-                "extension": "json",
-                "indicators": {
                     "nonParticipationRatio": {
                         "filename": "nonParticipationRatio",
+                        "extension": "json"
+                    },
+                    "relationshipsSatisfactionRatio": {
+                        "filename": "relationshipsSatisfactionRatio",
                         "extension": "json"
                     },
                     "socialActivitiesRatio": {

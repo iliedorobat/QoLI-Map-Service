@@ -28,8 +28,7 @@ export interface IQoLI {
         environment: IEnvironment,
         governance: IGovernance,
         health: IHealth,
-        interactions: IInteractions,
-        leisure: ILeisure,
+        leisureInteract: ILeisureInteract,
         mainActivity: IMainActivity,
         livingConditions: ILivingConditions,
         overallExperience: IOverallExperience,
@@ -97,23 +96,18 @@ export interface IHealth extends IGenericDimension {
     }
 }
 
-export interface IInteractions extends IGenericDimension {
+export interface ILeisureInteract extends IGenericDimension {
     indicators: {
         askingRatio: IQoLIIndicator;
         discussionRatio: IQoLIIndicator;
         gettingTogetherFamRatio: IQoLIIndicator;
         gettingTogetherFrdRatio: IQoLIIndicator;
-        satisfactionRatio: IQoLIIndicator;
-    }
-}
-
-export interface ILeisure extends IGenericDimension {
-    indicators: {
         formalVoluntaryRatio: IQoLIIndicator;
         informalVoluntaryRatio: IQoLIIndicator;
         nonParticipationRatio: IQoLIIndicator;
-        satisfactionRatio: IQoLIIndicator;
+        relationshipsSatisfactionRatio: IQoLIIndicator;
         socialActivitiesRatio: IQoLIIndicator;
+        timeSatisfactionRatio: IQoLIIndicator;
     }
 }
 
@@ -169,4 +163,4 @@ export interface ISafety extends IGenericDimension {
     }
 }
 
-export type IQoLIDimension = IEducation | IEnvironment | IGovernance | IHealth | IInteractions | ILeisure | IMainActivity | ILivingConditions | IOverallExperience | ISafety;
+export type IQoLIDimension = IEducation | IEnvironment | IGovernance | IHealth | ILeisureInteract | IMainActivity | ILivingConditions | IOverallExperience | ISafety;

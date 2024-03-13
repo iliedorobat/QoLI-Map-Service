@@ -10,6 +10,7 @@ import {getClientConfig} from '#src/config/preparedDataset.utils.ts';
 import {AREA} from '#src/commons/file.utils.ts';
 import DATASET_CONFIG from '#src/config/preparedDataset.config.ts';
 import {DIMENSIONS} from '#src/config/preparedDataset.const.ts';
+import {HOST} from '#src/app.const.js';
 
 const require = createRequire(import.meta.url);
 const {JavaCaller} = require('java-caller');
@@ -85,8 +86,16 @@ router.get('/stats/dataset/collect', async (req: Request, res: Response) => {
         console.log('Download complete!');
         res.send('Download complete!');
     } catch (error) {
-        console.error('Something went wrong while downloading raw data.');
-        res.status(500).send({error: 'Something went wrong while downloading raw data.'});
+        if (error instanceof Error) {
+            // @ts-ignore
+            const {code = 500, message} = error;
+            console.error(message);
+            res.status(code).send({error: message});
+        } else {
+            const message = 'Something went wrong while downloading raw data.';
+            console.error(message);
+            res.status(500).send({error: message});
+        }
     }
 });
 
@@ -96,12 +105,17 @@ router.get('/stats/dataset/prepare', async (req: Request, res: Response) => {
     const dirPath = path.resolve('files', 'raw');
 
     if (!fs.existsSync(dirPath)) {
-        return res.status(500).send('First you need to download the raw data using "/stats/dataset/collect" API.');
+        const response = await fetch(`${HOST}/stats/dataset/collect`);
+
+        if (response.status === 404) {
+            const message = await response.text();
+            return res.status(response.status).send(message);
+        }
     }
 
     try {
         const java = new JavaCaller({
-            jar: 'libs/QoLI-Framework-1.2.jar',
+            jar: 'libs/QoLI-Framework-2.0.jar',
             mainClass: 'app.java.Main'
         });
         const {status, stdout, sterr} = await java.run(['--calculate=true', '--calculateIndicators=true']);

@@ -1,7 +1,6 @@
 import app from './app.ts';
+import {PORT} from './app.const.js';
 
-const port = 3070;
-
-app.listen(port, () => {
-    console.log(`Server is up on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is up on port ${PORT}`);
 });

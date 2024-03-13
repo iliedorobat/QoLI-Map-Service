@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import {createRequire} from 'node:module';
 
 import {AREA, FORMAT, writeFileSync} from '#src/commons/file.utils.ts';
+import {CustomError} from '#src/commons/CustomError.js';
 import {IQoLI} from '#src/config/preparedDataset.types.js';
 
 const require = createRequire(import.meta.url);
@@ -22,6 +23,10 @@ const downloadDatasets = async () => {
 
     for await (const url of urls) {
         const response = await fetch(url.source);
+        if (response.status === 404) {
+            throw new CustomError(`Error: ${url.source} could not be found.`, 404);
+        }
+
         let content = '';
 
         if (url.extension === 'json') {
@@ -32,7 +37,7 @@ const downloadDatasets = async () => {
         }
 
         await writeFileSync(url.destination, content);
-    }
+        }
 };
 
 const getRawDatasetUrls = () => {
